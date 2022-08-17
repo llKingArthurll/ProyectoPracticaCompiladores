@@ -25,6 +25,7 @@ namespace ProyectoPracticaCompiladores
             String reservada = "";
             String noReservada = "";
             String operadores = "";
+            //Cambios de poio
 
             //Valores de Patterns para sentencias condicionales
             String ptnIf = "if";
