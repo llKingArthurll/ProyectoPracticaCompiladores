@@ -66,7 +66,7 @@ namespace ProyectoPracticaCompiladores
             //Seleccion de estados para pasar
             int estado = 0;
             int seleccion = 0;
-            int acceso;
+            int acceso = 69;  //Shhhhshh
             bool error = true;
 
             //Delimitador si termina con llave o punto y coma
@@ -81,32 +81,50 @@ namespace ProyectoPracticaCompiladores
                 valores = valores.Replace(" ", "");
                 estado = 2;
             }
+            //else if (Regex.Match(valores, "^}").Success)
+            //{
+            //    valores = valores.Replace(" ", "");
+            //    estado = 3;
+            //    MessageBox.Show(valores + estado + ": DETECTADO");
+            //}
             else
             {
                 MessageBox.Show("Error al finalizar la sentencia", "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 txtEntrada.Clear();
             }
 
-            //Validando el inicio del programa
+            //Validando el INICIO del programa
             if (estado == 1)
             {
-                //Valida si inicia en public o private
-                switch (true)
+                //Valida que inicie en INICIAMOS
+                if(Regex.Match(valores, @"\A"+ ptnInicio).Success)
                 {
-                    case bool _ when Regex.IsMatch(valores, @"\A" + ptnPublic):
-                        valores = valores.Replace(ptnPublic, "");
-                        reservada = reservada + ptnPublic + "\r\n";
-                        acceso = 1;
-                        break;
-                    case bool _ when Regex.IsMatch(valores, @"\A" + ptnPrivate):
-                        valores = valores.Replace(ptnPrivate, "");
-                        reservada = reservada + ptnPrivate + "\r\n";
-                        acceso = 1;
-                        break;
-                    default:
-                        acceso = 2;
-                        break;
+                    valores = valores.Replace(ptnInicio, "");
+                    reservada = reservada + ptnInicio + "\r\n";
+                    acceso = 0;
                 }
+                //acceso 0 para que corra el programa
+                if (acceso == 0)
+                {
+                    //Valida si inicia en public o private
+                    switch (true)
+                    {
+                        case bool _ when Regex.IsMatch(valores, @"\A" + ptnPublic):
+                            valores = valores.Replace(ptnPublic, "");
+                            reservada = reservada + ptnPublic + "\r\n";
+                            acceso = 1;
+                            break;
+                        case bool _ when Regex.IsMatch(valores, @"\A" + ptnPrivate):
+                            valores = valores.Replace(ptnPrivate, "");
+                            reservada = reservada + ptnPrivate + "\r\n";
+                            acceso = 1;
+                            break;
+                        default:
+                            acceso = 2;
+                            break;
+                    }
+                }
+
                 if (acceso == 1)
                 {
                     //Valida si continua static
@@ -160,7 +178,6 @@ namespace ProyectoPracticaCompiladores
                             reservada = reservada + ptnElse + "\r\n";
                             valores = valores.Replace(ptnElse, "");
                             seleccion = 3;
-                            //Se supone que es el mismo no?
                             break;
                         case bool _ when Regex.IsMatch(valores, ptnSwitch):
                             reservada = reservada + ptnSwitch + "\r\n";
@@ -344,6 +361,10 @@ namespace ProyectoPracticaCompiladores
                             operadores = operadores + "!=" + "\r\n";
                             valores = valores.Replace("!=", "\r\n");
                             break;
+                        case bool _ when Regex.IsMatch(valores, @"\+="):
+                            operadores = operadores + "+=" + "\r\n";
+                            valores = valores.Replace("+=", "\r\n");
+                            break;
                         case bool _ when Regex.IsMatch(valores, @"\+\+"):
                             operadores = operadores + "++" + "\r\n";
                             valores = valores.Replace("++", "\r\n");
@@ -363,6 +384,10 @@ namespace ProyectoPracticaCompiladores
                         case bool _ when Regex.IsMatch(valores, "="):
                             operadores = operadores + "=" + "\r\n";
                             valores = valores.Replace("=", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, "=="):
+                            operadores = operadores + "==" + "\r\n";
+                            valores = valores.Replace("==", "\r\n");
                             break;
                         case bool _ when Regex.IsMatch(valores, @"\+"):
                             operadores = operadores + "+" + "\r\n";
@@ -384,12 +409,27 @@ namespace ProyectoPracticaCompiladores
                             operadores = operadores + "%" + "\r\n";
                             valores = valores.Replace("%", "\r\n");
                             break;
+                        case bool _ when Regex.IsMatch(valores, @"\^"):
+                            operadores = operadores + "^" + "\r\n";
+                            valores = valores.Replace("^", "\r\n");
+                            break;
                         default:
                             error = false;
                             break;
                     }
                 }
             }
+
+            //Valida que FIN del programa
+            //if (estado == 3)
+            //{
+            //    if (Regex.Match(valores, ptnFin).Success)
+            //    {
+            //        valores = valores.Replace(ptnFin, "");
+            //        reservada = reservada + ptnFin + "\r\n";
+            //        MessageBox.Show(reservada + "= DETECTADO");
+            //    }
+            //}
 
             //Valores Finales
             noReservada = valores;
