@@ -49,6 +49,7 @@ namespace ProyectoPracticaCompiladores
 
             //Valores de Patterns para tipos de datos
             String ptnString = "string";
+            String ptnMostrar = "mostrar";
             String ptnInt = "int";
             String ptnDouble = "double";
             String ptnBoolean = "bool";
@@ -186,6 +187,7 @@ namespace ProyectoPracticaCompiladores
                             valores = valores.Replace(ptnFor, "");
                             seleccion = 3;
                             break;
+
                         default:
                             MessageBox.Show("¡Error de sintaxis!", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             break;
@@ -203,51 +205,55 @@ namespace ProyectoPracticaCompiladores
             {
                 if (Regex.Match(valores, @"\A" + ptnString).Success || Regex.Match(valores, @"\A" + ptnInt).Success || Regex.Match(valores, @"\A" + ptnDouble).Success || Regex.Match(valores, @"\A" + ptnBoolean).Success || Regex.Match(valores, @"\A" + ptnFloat).Success || Regex.Match(valores, @"\A" + ptnChar).Success || Regex.Match(valores, @"\A" + ptnConst).Success)
                 {
-                    switch (true)
+                    while (error == true)
                     {
-                        case bool _ when Regex.IsMatch(valores, ptnString):
-                            reservada = reservada + ptnString + "\r\n";
-                            valores = valores.Replace(ptnString, "");
-                            break;
-                        case bool _ when Regex.IsMatch(valores, ptnInt):
-                            reservada = reservada + ptnInt + "\r\n";
-                            valores = valores.Replace(ptnInt, "");
-                            break;
-                        case bool _ when Regex.IsMatch(valores, ptnDouble):
-                            reservada = reservada + ptnDouble + "\r\n";
-                            valores = valores.Replace(ptnDouble, "");
-                            break;
-                        case bool _ when Regex.IsMatch(valores, ptnBoolean):
-                            reservada = reservada + ptnBoolean + "\r\n";
-                            valores = valores.Replace(ptnBoolean, "");
-                            break;
-                        case bool _ when Regex.IsMatch(valores, ptnFloat):
-                            if (Regex.Match(valores, "f$").Success)
-                            {
-                                reservada = reservada + ptnFloat + "\r\n";
-                                reservada = reservada + "f" + "\r\n";
-                                valores = valores.Replace(ptnFloat, "");
-                                valores = valores.Replace("f", "");
-                            }
-                            else
-                            {
-                                MessageBox.Show("Error de sintaxis, favor de revisar la escritura.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                txtEntrada.Clear();
-                            }
-                            break;
-                        case bool _ when Regex.IsMatch(valores, ptnChar):
-                            reservada = reservada + ptnChar + "\r\n";
-                            valores = valores.Replace(ptnChar, "");
-                            break;
-                        case bool _ when Regex.IsMatch(valores, ptnConst):
-                            reservada = reservada + ptnConst + "\r\n";
-                            valores = valores.Replace("const", "");
-                            break;
-                        default:
-                            MessageBox.Show("Error de sintaxis, favor de revisar la escritura.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            txtEntrada.Clear();
-                            break;
+                        switch (true)
+                        {
+                            case bool _ when Regex.IsMatch(valores, ptnConst):
+                                reservada = reservada + ptnConst + "\r\n";
+                                valores = valores.Replace("const", "");
+                                break;
+                            case bool _ when Regex.IsMatch(valores, ptnString):
+                                reservada = reservada + ptnString + "\r\n";
+                                valores = valores.Replace(ptnString, "");
+                                break;
+                            case bool _ when Regex.IsMatch(valores, ptnInt):
+                                reservada = reservada + ptnInt + "\r\n";
+                                valores = valores.Replace(ptnInt, "");
+                                break;
+                            case bool _ when Regex.IsMatch(valores, ptnDouble):
+                                reservada = reservada + ptnDouble + "\r\n";
+                                valores = valores.Replace(ptnDouble, "");
+                                break;
+                            case bool _ when Regex.IsMatch(valores, ptnBoolean):
+                                reservada = reservada + ptnBoolean + "\r\n";
+                                valores = valores.Replace(ptnBoolean, "");
+                                break;
+                            case bool _ when Regex.IsMatch(valores, ptnFloat):
+                                if (Regex.Match(valores, "f$").Success)
+                                {
+                                    reservada = reservada + ptnFloat + "\r\n";
+                                    reservada = reservada + "f" + "\r\n";
+                                    valores = valores.Replace(ptnFloat, "");
+                                    valores = valores.Replace("f", "");
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Error de sintaxis, favor de revisar la escritura.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    txtEntrada.Clear();
+                                }
+                                break;
+                            case bool _ when Regex.IsMatch(valores, ptnChar):
+                                reservada = reservada + ptnChar + "\r\n";
+                                valores = valores.Replace(ptnChar, "");
+                                break;
+                            default:
+                                error = false;
+                                break;
+                        }
                     }
+                    error = true;
+                    seleccion = 3;
                 }
             }
             if (seleccion == 3)
@@ -302,6 +308,10 @@ namespace ProyectoPracticaCompiladores
                             reservada = reservada + ptnChar + "\r\n";
                             valores = valores.Replace(ptnChar, "");
                             break;
+                        case bool _ when Regex.IsMatch(valores, ptnMostrar):
+                            reservada = reservada + ptnMostrar + "\r\n";
+                            valores = valores.Replace(ptnMostrar, "");
+                            break;
                         case bool _ when Regex.IsMatch(valores, ptnConst):
                             reservada = reservada + ptnConst + "\r\n";
                             valores = valores.Replace("const", "");
@@ -312,58 +322,72 @@ namespace ProyectoPracticaCompiladores
 
                     }
                 }
+                error = true;
+                seleccion = 4;
+
             }
-            while (error == true)
+            if (seleccion == 4)
             {
-                switch (true)
+                while (error == true)
                 {
-                    case bool _ when Regex.IsMatch(valores, "<="):
-                        operadores = operadores + "<=" + "\r\n";
-                        valores = valores.Replace("<=", "\r\n");
-                        break;
-                    case bool _ when Regex.IsMatch(valores, ">="):
-                        operadores = operadores + ">=" + "\r\n";
-                        valores = valores.Replace(">=", "\r\n");
-                        break;
-                    case bool _ when Regex.IsMatch(valores, "!="):
-                        operadores = operadores + "!=" + "\r\n";
-                        valores = valores.Replace("!=", "\r\n");
-                        break;
-                    case bool _ when Regex.IsMatch(valores, @"\+\+"):
-                        operadores = operadores + "++" + "\r\n";
-                        valores = valores.Replace("++", "\r\n");
-                        break;
-                    case bool _ when Regex.IsMatch(valores, "--"):
-                        operadores = operadores + "--" + "\r\n";
-                        valores = valores.Replace("--", "\r\n");
-                        break;
-                    case bool _ when Regex.IsMatch(valores, "<"):
-                        operadores = operadores + "<" + "\r\n";
-                        valores = valores.Replace("<", "\r\n");
-                        break;
-                    case bool _ when Regex.IsMatch(valores, ">"):
-                        operadores = operadores + ">" + "\r\n";
-                        valores = valores.Replace(">", "\r\n");
-                        break;
-                    case bool _ when Regex.IsMatch(valores, "="):
-                        operadores = operadores + "=" + "\r\n";
-                        valores = valores.Replace("=", "\r\n");
-                        break;
-                    case bool _ when Regex.IsMatch(valores, @"\+"):
-                        operadores = operadores + "+" + "\r\n";
-                        valores = valores.Replace("+", "\r\n");
-                        break;
-                    case bool _ when Regex.IsMatch(valores, "-"):
-                        operadores = operadores + "-" + "\r\n";
-                        valores = valores.Replace("-", "\r\n");
-                        break;
-                    case bool _ when Regex.IsMatch(valores, @"\*"):
-                        operadores = operadores + "*" + "\r\n";
-                        valores = valores.Replace("*", "\r\n");
-                        break;
-                    default:
-                        error = false;
-                        break;
+                    switch (true)
+                    {
+                        case bool _ when Regex.IsMatch(valores, "<="):
+                            operadores = operadores + "<=" + "\r\n";
+                            valores = valores.Replace("<=", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, ">="):
+                            operadores = operadores + ">=" + "\r\n";
+                            valores = valores.Replace(">=", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, "!="):
+                            operadores = operadores + "!=" + "\r\n";
+                            valores = valores.Replace("!=", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, @"\+\+"):
+                            operadores = operadores + "++" + "\r\n";
+                            valores = valores.Replace("++", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, "--"):
+                            operadores = operadores + "--" + "\r\n";
+                            valores = valores.Replace("--", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, "<"):
+                            operadores = operadores + "<" + "\r\n";
+                            valores = valores.Replace("<", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, ">"):
+                            operadores = operadores + ">" + "\r\n";
+                            valores = valores.Replace(">", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, "="):
+                            operadores = operadores + "=" + "\r\n";
+                            valores = valores.Replace("=", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, @"\+"):
+                            operadores = operadores + "+" + "\r\n";
+                            valores = valores.Replace("+", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, "-"):
+                            operadores = operadores + "-" + "\r\n";
+                            valores = valores.Replace("-", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, @"\*"):
+                            operadores = operadores + "*" + "\r\n";
+                            valores = valores.Replace("*", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, @"\/"):
+                            operadores = operadores + "/" + "\r\n";
+                            valores = valores.Replace("/", "\r\n");
+                            break;
+                        case bool _ when Regex.IsMatch(valores, @"\%"):
+                            operadores = operadores + "%" + "\r\n";
+                            valores = valores.Replace("%", "\r\n");
+                            break;
+                        default:
+                            error = false;
+                            break;
+                    }
                 }
             }
 
