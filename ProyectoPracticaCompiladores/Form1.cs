@@ -35,7 +35,13 @@ namespace ProyectoPracticaCompiladores
 
             //Valores de Patterns para sentencias condicionales
             String ptnIf = "if";
+            String ptnElse = "else";
             String ptnSwitch = "switch";
+            String ptnCase = "case";
+            String ptnBreak = "break";
+            String ptnDefault = "default";
+
+            //Valores de Patterns para sentencias Ciclicas
             String ptnWhile = "while";
             String ptnDo = "do";
             String ptnFor = "for";
@@ -49,7 +55,15 @@ namespace ProyectoPracticaCompiladores
             String ptnBoolean = "bool";
             String ptnFloat = "float";
             String ptnChar = "char";
+
+            //Valor de Pattern para "const"
             String ptnConst = "const";
+
+            //Valor de Pattern para Inicio de Programa
+            String ptnInicio = "iniciamos";
+
+            //Valor de Pattern para Fin de Programa
+            String ptnFin = "terminamos";
 
             //Seleccion de estados para pasar
             int estado = 0;
@@ -75,8 +89,8 @@ namespace ProyectoPracticaCompiladores
                 txtEntrada.Clear();
             }
 
-            //Validando el inicio del programa
-            if (estado == 1)
+                //Validando el inicio del programa
+                if (estado == 1)
             {
                 //Valida si inicia en public o private
                 switch (true)
@@ -143,6 +157,12 @@ namespace ProyectoPracticaCompiladores
                             reservada = reservada + ptnIf + "\r\n";
                             valores = valores.Replace(ptnIf, "");
                             seleccion = 3;
+                            break;
+                        case bool _ when Regex.IsMatch(valores, ptnElse):
+                            reservada = reservada + ptnElse + "\r\n";
+                            valores = valores.Replace(ptnElse, "");
+                            seleccion = 3;
+                            //Se supone que es el mismo no?
                             break;
                         case bool _ when Regex.IsMatch(valores, ptnSwitch):
                             reservada = reservada + ptnSwitch + "\r\n";
