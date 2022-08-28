@@ -100,7 +100,7 @@ namespace ProyectoPracticaCompiladores
             {
                 MessageBox.Show("Error al finalizar la sentencia", "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 //txtEntrada.Clear();
-                //return;
+                return;
             }
 
             //Validando el inicio del programa
@@ -237,7 +237,7 @@ namespace ProyectoPracticaCompiladores
                         }
                     }
                 }
-                if (Regex.Match(valores, @"\A" + ptnIf).Success || Regex.Match(valores, @".*" + ptnElse).Success || Regex.Match(valores, @"\A" + ptnSwitch).Success || Regex.Match(valores, @"\A" + ptnWhile).Success || Regex.Match(valores, @"\A" + ptnDo).Success || Regex.Match(valores, @"\A" + ptnFor).Success || Regex.Match(valores, @"\A" + ptnForEach).Success || Regex.Match(valores, @"\A" + ptnMostrar).Success || Regex.Match(valores, @"\A" + ptnArray).Success)
+                if (Regex.Match(valores, ptnIf).Success || Regex.Match(valores, ptnElse).Success || Regex.Match(valores,ptnSwitch).Success || Regex.Match(valores,ptnWhile).Success || Regex.Match(valores,ptnDo).Success || Regex.Match(valores,ptnFor).Success || Regex.Match(valores, ptnForEach).Success || Regex.Match(valores,ptnMostrar).Success || Regex.Match(valores,ptnArray).Success)
                 {
                     switch (true)
                     {
@@ -246,6 +246,12 @@ namespace ProyectoPracticaCompiladores
                             valores = valores.Replace(ptnIf, "");
                             seleccion = 3;
                             break;
+                        //case bool _ when Regex.IsMatch(valores, ptnElse):
+                        //    reservada = reservada + ptnElse + "\r\n";
+                        //    valores = valores.Replace(ptnElse, "");
+                        //    seleccion = 3;
+                        //    MessageBox.Show("FUNCA seleccion3");
+                        //    break;
                         case bool _ when Regex.IsMatch(valores, ptnSwitch):
                             reservada = reservada + ptnSwitch + "\r\n";
                             valores = valores.Replace(ptnSwitch, "");
@@ -274,8 +280,7 @@ namespace ProyectoPracticaCompiladores
 
                         default:
                             MessageBox.Show("¡Error de sintaxis!", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            //return;
-                            break;
+                            return;
                     }
                 }
             }
@@ -283,7 +288,7 @@ namespace ProyectoPracticaCompiladores
             //Ejecución de las sentencias de asignaciones
             if (seleccion == 2)
             {
-                if (Regex.Match(valores, ptnString).Success || Regex.Match(valores, @".*" + ptnElse).Success || Regex.Match(valores, @"\A" + ptnInt).Success || Regex.Match(valores, @"\A" + ptnDouble).Success || Regex.Match(valores, @"\A" + ptnBoolean).Success || Regex.Match(valores, @"\A" + ptnFloat).Success || Regex.Match(valores, @"\A" + ptnChar).Success || Regex.Match(valores, @"\A" + ptnConst).Success || Regex.Match(valores, @"\A" + ptnReturn).Success || Regex.Match(valores, @"\A" + ptnCase).Success || Regex.Match(valores, @".*" + ptnBreak).Success || Regex.Match(valores, @"\A" + ptnMostrar).Success || Regex.Match(valores, @"\A" + ptnArray).Success)
+                if (Regex.Match(valores, ptnString).Success || Regex.Match(valores, ptnElse).Success || Regex.Match(valores,ptnInt).Success || Regex.Match(valores, ptnDouble).Success || Regex.Match(valores, ptnBoolean).Success || Regex.Match(valores,ptnFloat).Success || Regex.Match(valores,ptnChar).Success || Regex.Match(valores, ptnConst).Success || Regex.Match(valores, ptnReturn).Success || Regex.Match(valores, ptnCase).Success || Regex.Match(valores, ptnBreak).Success || Regex.Match(valores, ptnMostrar).Success || Regex.Match(valores, ptnArray).Success)
                 {
                     while (error == true)
                     {
@@ -320,7 +325,7 @@ namespace ProyectoPracticaCompiladores
                                 else
                                 {
                                     MessageBox.Show("Error de sintaxis, favor de revisar la escritura.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                    //return;
+                                    return;
                                     //txtEntrada.Clear();
                                 }
                                 break;
@@ -328,6 +333,10 @@ namespace ProyectoPracticaCompiladores
                                 reservada = reservada + ptnChar + "\r\n";
                                 valores = valores.Replace(ptnChar, "");
                                 break;
+                            //case bool _ when Regex.IsMatch(valores, ptnElse):
+                            //    reservada = reservada + ptnElse + "\r\n";
+                            //    valores = valores.Replace(ptnElse, "");
+                            //    break;
                             default:
                                 error = false;
                                 break;
@@ -390,7 +399,7 @@ namespace ProyectoPracticaCompiladores
                             else
                             {
                                 MessageBox.Show("Error de sintaxis, favor de revisar la escritura.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                //return;
+                                return;
                                 //txtEntrada.Clear();
                             }
                             break;
